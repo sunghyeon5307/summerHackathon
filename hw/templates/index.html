@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Speed Monitor</title>
+</head>
+<body>
+    <h1>Current Speed</h1>
+    <div id="speed">Waiting for data...</div>
+
+    <script>
+        // 페이지 로드 후 실행할 함수
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/speed')  // 서버의 /speed 엔드포인트에 GET 요청
+                .then(response => response.json())  // JSON 형식으로 받아오기
+                .then(data => {
+                    if (data.speed !== undefined) {
+                        document.getElementById('speed').innerText = data.speed.toFixed(2) + ' km/h';
+                    } else {
+                        document.getElementById('speed').innerText = 'Failed to fetch speed data';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching speed data:', error);
+                    document.getElementById('speed').innerText = 'Error fetching speed data';
+                });
+        });
+    </script>
+</body>
+</html>
